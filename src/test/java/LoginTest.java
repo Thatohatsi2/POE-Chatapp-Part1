@@ -4,7 +4,7 @@
  */
 
 package com.mycompany.chatapp;
-
+// Part 1 Unit Tests
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
