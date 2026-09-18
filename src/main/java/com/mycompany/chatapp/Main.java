@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.chatapp;
-// Part 1 Main Application
+// Part 1 Main Application-Registration and Login
 import java.util.Scanner;
 /**
  *
