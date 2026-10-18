@@ -36,7 +36,7 @@ public class Main {
         
         // Order matches Login.registerUser's signature:
         // (username, password, cellPhoneNumber, fName, lName)
-        String registrationResult = Login.registerUser(username, password, cellPhone, fName, lName);
+        String registrationResult = Login.registerUser(fName, lName, username,password, cellPhone);
         System.out.println(registrationResult);
         
         // LOGIN PHASE

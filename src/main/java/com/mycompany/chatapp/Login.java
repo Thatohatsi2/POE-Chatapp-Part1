@@ -18,7 +18,7 @@ public class Login {
     static String lastName;
     
     // Regex for South African cell phone numbers (+27 followed by 9 digits)
-    public static final String CELL_REGEX = "\\+27[0-9]{9}$";
+    public static final String CELL_REGEX = "^\\+27[0-9]{9}$";
     
     //checkUserName
     public static boolean checkUserName(String username) {
