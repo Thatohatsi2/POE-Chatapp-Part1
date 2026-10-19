@@ -10,3 +10,6 @@ This project contains the registration and login feature for the Chat App
 
 #How to run
 Run Main.Java in NetBeans or use the command:mvn exec:java
+
+## Part 2- Sending Messages
+Adds a Message Class with ID  generation, validation, hash creation and users must be logged in to send  messages. Includes 10 unit tests (MessageTest.java) and automated GitHub Actions testing on every push
