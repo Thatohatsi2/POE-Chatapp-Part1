@@ -73,7 +73,8 @@ public class Main {
        boolean quit = false;
        
        while (!quit){
-       System.out.println("\n1) Send Messages");
+       System.out.println("\n ======MENU========");
+       System.out.println("1) Send Messages");
        System.out.println("2) Show  recently sent messages");
        System.out.println("3) Quit");
        System.out.println("Choose an option: ");
