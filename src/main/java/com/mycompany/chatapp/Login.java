@@ -82,7 +82,7 @@ public static String registerUser(String fName, String lName, String username, S
     firstName = fName; 
     lastName = lName;  
 
-    System.out.println("User successfully registered.");
+   
     return "User successfully registered.";
 }
     
