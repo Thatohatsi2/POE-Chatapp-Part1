@@ -11,7 +11,9 @@ import java.util.Scanner;
  */
 public class Main {
    
-
+    //The JSON file that stored messages are saved to and read from
+    private static final String JSON_FILE = "storedMessages.json";
+    
     public static void main(String[] args) {
         
         Scanner input = new Scanner(System.in);
@@ -66,12 +68,22 @@ public class Main {
         //QuickChat Messaging
         System.out.println("Welcome to QuickChat.");
         
-       System.out.print("How many messages would you like to send? ");
-       int numMessages =Integer.parseInt(input.nextLine());
+         //Keep asking until the user types a whole number from 1 to 99
+       int numMessages = 0;
+       while (numMessages < 1) {
+           System.out.print("How many messages would you like to send? ");
+           String numText = input.nextLine();
+           if (numText.matches("[1-9][0-9]?")) {
+               numMessages = Integer.parseInt(numText);
+           } else {
+               System.out.println("Please enter a number between 1 and 99.");
+           }
+       }
        int messagesEntered = 0;
-       
+
+       //Create the arrays and read any stored messages back in from the JSON file
        MessageManager manager = new MessageManager();
-       manager.loadTestData();
+       manager.loadStoredFromJson(JSON_FILE);
        
        boolean quit = false;
        
@@ -80,6 +92,7 @@ public class Main {
        System.out.println("1) Send Messages");
        System.out.println("2) Show  recently sent messages");
        System.out.println("3) Quit");
+       System.out.println("4) Stored Messages");
        System.out.println("Choose an option: ");
        String choice = input.nextLine();
        

@@ -51,24 +51,24 @@ public class MessageManager {
     }
        messageCount++;
     }
-    
         public void loadTestData() {
+        // We add the SENT messages first so they are at index 0 and 1
         // Message 1 (Sent)
         addMessage("ID_1", "HASH_1", "+27834557896", "Did you get the cake?", "Sent");
+        
+        // Message 4 (Sent)
+        addMessage("0838884567", "HASH_4", "0838884567", "It is dinner time!", "Sent");
 
+        // Now we add the Stored and Disregarded messages
         // Message 2 (Stored)
         addMessage("ID_2", "HASH_2", "+27838884567", "Where are you? You are late! I have asked you to be on time.", "Stored");
 
         // Message 3 (Disregarded)
         addMessage("ID_3", "HASH_3", "+27844484567", "Yohoooo, I am at your gate.", "Disregard");
-
-        // Message 4 (Sent)
-        addMessage("0838884567", "HASH_4", "0838884567", "It is dinner time!", "Sent");
-
+       
         // Message 5 (Stored)
         addMessage("ID_5", "HASH_5", "+27838884567", "Ok, I am leaving without you.", "Stored");
     }
-    
     
     //returns the text of a sent or stored messae position i (null if it was disregarded)
     private String getSentOrStoredText(int i){
@@ -176,7 +176,7 @@ public class MessageManager {
        disregardedMessages[messageCount]= null;
        sentMessages[messageCount] = null;
        
-       return "Message: \""+ deletedMessage + "\" successfull deleted.";
+       return "Message: \""+ deletedMessage + "\" successfully deleted.";
       
      }
      }
@@ -184,25 +184,18 @@ public class MessageManager {
      }
      
      //Report with the full details of every sent and stored message
-     public String generateReport(){
-     String report = "===MESSAGE REPORT===\n";
-     for (int i = 0; i < messageCount; i++){
-     String text = getSentOrStoredText(i);
-     if (text != null){
-     String status ="Sent";
-     if(storedMessages[i] != null){
-     status = "Stored";
-     }
-     report = report + "Message ID: " + messageIDs[i] + "\n"
-                     +"Recipent: " + messageHashes[i] +"\n"
-                     +"Message: " + text + "\n"
-                     + "Status: " + status + "\n"
-                     +"-----------------------------------\n";
-            
-     }
-     }
-     return report;
-     }
+         public String generateReport() {
+        String report = "--- STORED MESSAGES REPORT ---\n";
+        for (int i = 0; i < messageCount; i++) {
+            if (storedMessages[i] != null) {
+                report = report + "Hash: " + messageHashes[i] + "\n"
+                        + "Recipient: " + recipients[i] + "\n" // <-- Check this is 'recipients'
+                        + "Message: " + storedMessages[i] + "\n"
+                        + "------------------------------\n";
+            }
+        }
+        return report;
+    }
      
      // Save every stored message to a JSON file (called after a message is stored or deleted)
      public void saveStoredToJson(String fileName){
