@@ -94,7 +94,7 @@ public class MessageManager {
      String result ="";
     for(int i = 0; i < messageCount; i++){
     if(storedMessages[i] != null) {
-    result =result + "Sender: " + sender + "Recipient: " + recipients[i] + "\n";
+    result =result + "Sender: " + sender + ", Recipient: " + recipients[i] + "\n";
     }
     }
     if(result.equals("")){
@@ -184,18 +184,25 @@ public class MessageManager {
      }
      
      //Report with the full details of every sent and stored message
-         public String generateReport() {
-        String report = "--- STORED MESSAGES REPORT ---\n";
-        for (int i = 0; i < messageCount; i++) {
+        public String generateReport() {
+    String report = "===== MESSAGE REPORT =====\n";
+    for (int i = 0; i < messageCount; i++) {
+        String text = getSentOrStoredText(i);
+        if (text != null) {
+            String status = "Sent";
             if (storedMessages[i] != null) {
-                report = report + "Hash: " + messageHashes[i] + "\n"
-                        + "Recipient: " + recipients[i] + "\n" // <-- Check this is 'recipients'
-                        + "Message: " + storedMessages[i] + "\n"
-                        + "------------------------------\n";
+                status = "Stored";
             }
+            report = report + "Message ID: " + messageIDs[i] + "\n"
+                    + "Message Hash: " + messageHashes[i] + "\n"
+                    + "Recipient: " + recipients[i] + "\n"
+                    + "Message: " + text + "\n"
+                    + "Status: " + status + "\n"
+                    + "------------------------------\n";
         }
-        return report;
     }
+    return report;
+}
      
      // Save every stored message to a JSON file (called after a message is stored or deleted)
      public void saveStoredToJson(String fileName){

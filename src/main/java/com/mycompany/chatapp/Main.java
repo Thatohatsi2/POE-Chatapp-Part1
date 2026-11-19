@@ -166,7 +166,7 @@ public class Main {
                
              
            case "2":
-               System.out.println("Coming soon.");
+               System.out.println("Coming Soon.");
                break;
                
            case "3":
@@ -184,11 +184,15 @@ public class Main {
                System.out.println("4) Search by Recipient");
                System.out.println("5) Delete Hash");
                System.out.println("6) Display Report");
-               System.out.println("0) Back");
+              System.out.println("0) Back");
+               System.out.print("Choose an option: ");
                String subChoice = input.nextLine();
                
                switch (subChoice){
-                   case "1":  System.out.println(manager.displayStoredSendersAndRecipients(Login.firstName)+ " " + Login.lastName); break;
+                   case "1":
+    String fullName = Login.firstName + " " + Login.lastName;
+    System.out.println(manager.displayStoredSendersAndRecipients(fullName));
+    break;
                    case "2" :  System.out.println(manager.getLongestStoredMessage()); break;
                    case "3" :
                         System.out.print("Enter ID: ");
@@ -199,12 +203,12 @@ public class Main {
                         System.out.println(manager.searchByRecipient(input.nextLine()));
                         break;
                    case "5":
-                        System.out.print("Enter Hash: ");
-                        System.out.println(manager.deleteMessageByHash(input.nextLine()));
-                        manager.saveStoredToJson("storedMessages.json");
-                         break;
+                       System.out.print("Enter Message Hash: ");
+                       System.out.println(manager.deleteMessageByHash(input.nextLine()));
+                       manager.saveStoredToJson(JSON_FILE);
                    case "6":  System.out.println(manager.generateReport()); break;
-                   case "0": subMenu = false; break; 
+                   case "0": subMenu = false; break;
+                   default: System.out.println("Invalid option, please try again.");
                    
                }
                }

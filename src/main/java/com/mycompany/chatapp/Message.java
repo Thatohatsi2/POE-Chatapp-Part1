@@ -4,8 +4,7 @@
  */
 package com.mycompany.chatapp;
 import java.util.ArrayList;
-import java.io.FileWriter;
-import java.io.IOException;
+
 
 /**
  *
@@ -84,7 +83,7 @@ public class Message {
    } else if (choice == 2){
    return "Press 0 to delete the message.";
    }else if (choice == 3){
-   storeMessage();
+  
    return "Message successfully stored.";
    }else{
    return "Invaild option selected.";
@@ -117,20 +116,7 @@ public class Message {
    
    //JSON file created per message , named  using message ID.
    
-  private void storeMessage(){
-  String filename = "message_" + messageID + ".json";
-  String json = "{\n"
-           + "\"messageID\" :\"" + messageID + "\",\n"
-           + "\"messageHash\" :\"" + messageHash + "\",\n"
-           + "\"recipient\" :\"" + recipientCell+ "\",\n"
-           + "\"message\" :\"" + messageText+ "\",\n" 
-          +"}";
-  try(FileWriter writer = new FileWriter(filename)){
-  writer.write(json);
-  } catch(IOException e){
-  System.out.println("Error storing Message: " + e.getMessage());
-  }
-  }
+  
   
   public String getMessageID(){
   return messageID;
