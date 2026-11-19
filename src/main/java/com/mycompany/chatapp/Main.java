@@ -166,8 +166,8 @@ public class Main {
                
              
            case "2":
-               System.out.println("Coming Soon.");
-               break;
+             System.out.println(manager.displaySentMessages());
+                break;
                
            case "3":
                quit = true;
@@ -193,8 +193,14 @@ public class Main {
     String fullName = Login.firstName + " " + Login.lastName;
     System.out.println(manager.displayStoredSendersAndRecipients(fullName));
     break;
-                   case "2" :  System.out.println(manager.getLongestStoredMessage()); break;
+                   case "2" :  System.out.println(manager.getLongestStoredMessage());
+                    break;
                    case "3" :
+                      
+                 System.out.print("Enter Recipient: ");
+                        System.out.println(manager.searchByRecipient(input.nextLine()));
+                        break;
+  
                        
                    case "4":
                         System.out.print("Enter Recipient: ");
