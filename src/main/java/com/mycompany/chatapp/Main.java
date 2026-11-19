@@ -97,53 +97,76 @@ public class Main {
        String choice = input.nextLine();
        
        switch (choice){
-           case "1" :
+                     case "1" :
+               //The user may only enter the number of messages they chose at the start
+               if (messagesEntered >= numMessages) {
+                   System.out.println("You have already entered all " + numMessages + " messages.");
+                   break;
+               }
+
                //A for loop that runs based on how many messages the user wants to send
-                for (int i = 0; i < numMessages; i++){
-              System.out.println("\nMessage " + (i + 1)+ " of " + numMessages);
-                
-                //Input validation:Keep asking until they type a valid number
-                String recipient = "";
-                while(!recipient.startsWith("+27")|| recipient.length() !=12){
-                System.out.println("Enter recipient cell number (+27...): ");
-                recipient = input.nextLine();
-                }
-                
-                //Input validation keep asking until they type a valid number
-                String messageText = "";
-                while (messageText.length() < 1 || messageText.length() > 250){
-                System.out.println("Enter your message(max 250 chars):  ");
-                messageText = input.nextLine();
-                }
-                
-                Message message = new Message(recipient, messageText, i);
-                 System.out.println(message.checkRecipientCell());
-                  System.out.println(message.checkMessageLength());
-                  
-                  
-                  message.createMessageHash();
-                   System.out.println("1) Send 2) Disregard  3) Store");
-                  int sendChoice = Integer.parseInt(input.nextLine());
-                  
+               for (int i = 0; i < numMessages; i++) {
+                   System.out.println("\nMessage " + (i + 1) + " of " + numMessages);
+
+                   //Input validation: keep asking until the recipient number is valid
+                   String recipient = "";
+                   while (!Login.checkCellPhoneNumber(recipient)) {
+                       System.out.print("Enter recipient cell number (+27...): ");
+                       recipient = input.nextLine();
+                       if (!Login.checkCellPhoneNumber(recipient)) {
+                           System.out.println("Cell phone number is incorrectly formatted or does not contain an international code. Please correct the number and try again.");
+                       }
+                   }
+
+                   //Input validation: keep asking until the message is 1 to 250 characters
+                   String messageText = "";
+                   while (messageText.length() < 1 || messageText.length() > 250) {
+                       System.out.print("Enter your message (max 250 chars): ");
+                       messageText = input.nextLine();
+                       if (messageText.length() > 250) {
+                           System.out.println("Please enter a message of less than 250 characters.");
+                       } else if (messageText.length() < 1) {
+                           System.out.println("A message cannot be empty.");
+                       }
+                   }
+
+                   Message message = new Message(recipient, messageText, i);
+                   System.out.println(message.checkRecipientCell());
+                   System.out.println(message.checkMessageLength());
+                   message.createMessageHash();
+
+                   //Input validation: keep asking until the user types 1, 2 or 3
+                   int sendChoice = 0;
+                   while (sendChoice < 1 || sendChoice > 3) {
+                       System.out.print("1) Send  2) Disregard  3) Store: ");
+                       String sendText = input.nextLine();
+                       if (sendText.matches("[1-3]")) {
+                           sendChoice = Integer.parseInt(sendText);
+                       } else {
+                           System.out.println("Please enter 1, 2 or 3.");
+                       }
+                   }
+
                    System.out.println(message.SentMessage(sendChoice));
-                   
-                   if (sendChoice == 1 ){
-                   manager.sentMessages[manager.messageCount] = messageText;
-                   manager.messageCount++;
+
+                   //Add the message to the arrays using its flag
+                   if (sendChoice == 1) {
+                       manager.addMessage(message.getMessageID(), message.getMessageHash(), recipient, messageText, "Sent");
+                       System.out.println(message.getMessageDetails());
+                   } else if (sendChoice == 2) {
+                       manager.addMessage(message.getMessageID(), message.getMessageHash(), recipient, messageText, "Disregard");
+                   } else {
+                       manager.addMessage(message.getMessageID(), message.getMessageHash(), recipient, messageText, "Stored");
+                       manager.saveStoredToJson(JSON_FILE);
                    }
-                   else if (sendChoice == 3){
-                   manager.storedMessages[manager.messageCount] = messageText;    
-                   manager.recipients[manager.messageCount]= recipient;
-                   manager.messageHashes[manager.messageCount]= message.getMessageHash();
-                   manager.messageIDs[manager.messageCount] = message.getMessageID();
-                   manager.messageCount++;
-                   }
-                }
-                break;  
+               }
+               //All the messages the user chose to enter have now been entered
+               messagesEntered = numMessages;
+               break; 
                
              
            case "2":
-               System.out.println("Coming soon");
+               System.out.println("Coming soon.");
                break;
                
            case "3":
@@ -187,7 +210,7 @@ public class Main {
                }
               break;
            default:
-               System.out.println("Invaild option, please try again.");
+               System.out.println("Invalid option, please try again.");
        }
        }
        input.close();
