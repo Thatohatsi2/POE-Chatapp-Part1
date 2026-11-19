@@ -196,10 +196,11 @@ public class Main {
                    case "2" :  System.out.println(manager.getLongestStoredMessage());
                     break;
                    case "3" :
-                      
-                 System.out.print("Enter Recipient: ");
-                        System.out.println(manager.searchByRecipient(input.nextLine()));
-                        break;
+             System.out.print("Enter ID: ");
+                    String id = input.nextLine();
+                     System.out.println("Recipient: " + manager.getRecipientByMessageID(id));
+                         System.out.println("Message: " + manager.searchByMessageID(id));
+    break;
   
                        
                    case "4":
