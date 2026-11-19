@@ -195,17 +195,16 @@ public class Main {
     break;
                    case "2" :  System.out.println(manager.getLongestStoredMessage()); break;
                    case "3" :
-                        System.out.print("Enter ID: ");
-                        System.out.println(manager.searchByMessageID(input.nextLine()));
-                        break;
+                       
                    case "4":
-                        System.out.print("Enter Recipent: ");
+                        System.out.print("Enter Recipient: ");
                         System.out.println(manager.searchByRecipient(input.nextLine()));
                         break;
                    case "5":
                        System.out.print("Enter Message Hash: ");
                        System.out.println(manager.deleteMessageByHash(input.nextLine()));
                        manager.saveStoredToJson(JSON_FILE);
+                       break;
                    case "6":  System.out.println(manager.generateReport()); break;
                    case "0": subMenu = false; break;
                    default: System.out.println("Invalid option, please try again.");
