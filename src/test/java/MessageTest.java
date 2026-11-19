@@ -2,102 +2,69 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-import com.mycompany.chatapp.Message;
+import com.mycompany.chatapp.MessageManager;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
 /**
  *
  * @author Student
  */
+
 public class MessageTest {
     
-     // ===== checkMessageID() =====
- 
-    @Test
-    public void testMessageIDIsNotMoreThanTenCharacters() {
-        Message message = new Message("+27718693002", "Hi Mike, can you join us for dinner tonight?", 0);
-        // The ID is generated automatically as a ten-digit number,
-        // so this should always pass.
-        assertTrue(message.checkMessageID());
+    private MessageManager manager;
+
+    @BeforeEach
+    public void setUp() {
+        manager = new MessageManager();
+        // This loads the exact 5 test messages from the PDF into the arrays
+        manager.loadTestData(); 
     }
- 
-    // ===== checkRecipientCell() =====
- 
+
     @Test
-    public void testRecipientCellCorrectlyFormatted() {
-        Message message = new Message("+27718693002", "Hi Mike, can you join us for dinner tonight?", 0);
-        assertEquals("Cell phone number successfully captured.", message.checkRecipientCell());
+    public void testSentMessagesArrayPopulated() {
+        // The rubric says the sent array should contain Message 1 and Message 4
+        assertEquals("Did you get the cake?", manager.sentMessages[0]);
+        assertEquals("It is dinner time!", manager.sentMessages[1]);
     }
- 
+
     @Test
-    public void testRecipientCellIncorrectlyFormatted() {
-        // 08575975889 has no international code, so this should fail.
-        Message message = new Message("08575975889", "Hi Keegan, did you receive the payment?", 1);
-        assertEquals("Cell phone number is incorrectly formatted or does not contain an + international code. Please correct the number and try again.", message.checkRecipientCell());
+    public void testDisplayLongestMessage() {
+        // The longest message is Message 2
+        String expected = "Where are you? You are late! I have asked you to be on time.";
+        assertEquals(expected, manager.getLongestStoredMessage());
     }
- 
-    // ===== checkMessageLength() =====
- 
+
     @Test
-    public void testMessageWithinLengthLimit() {
-        Message message = new Message("+27718693002", "Hi Mike, can you join us for dinner tonight?", 0);
-        assertEquals("Message ready to send.", message.checkMessageLength());
+    public void testSearchByMessageID() {
+        // Message 4 has the ID "0838884567", expected return is the message text
+        assertEquals("It is dinner time!", manager.searchByMessageID("0838884567"));
     }
- 
+
     @Test
-    public void testMessageExceedsLengthLimit() {
-        // Build a message text that is deliberately over 250 characters.
-        String longText = "a".repeat(260);
-        Message message = new Message("+27718693002", longText, 0);
-        assertEquals("Message exceeds 250 characters by 10; please reduce the size.", message.checkMessageLength());
+    public void testSearchByRecipient() {
+        // Recipient +27838884567 has two stored messages (Message 2 and Message 5)
+        String result = manager.searchByRecipient("+27838884567");
+        assertTrue(result.contains("Where are you? You are late! I have asked you to be on time."));
+        assertTrue(result.contains("Ok, I am leaving without you."));
     }
- 
-    // ===== createMessageHash() =====
- 
+
     @Test
-    public void testMessageHashIsCorrect() {
-        // Test Case 1 from the brief: "Hi Mike, can you join us for
-        // dinner tonight?" should produce a hash ending in HITONIGHT.
-        Message message = new Message("+27718693002", "Hi Mike, can you join us for dinner tonight?", 0);
-        String hash = message.createMessageHash();
-        // The first two digits of the ID are random, so we only
-        // check that the hash ENDS with the expected pattern.
-        assertTrue(hash.endsWith(":0:HITONIGHT"));
+    public void testDeleteMessageByHash() {
+        // Message 2 has the hash "HASH_2". 
+        // The rubric requires this exact success string.
+        String result = manager.deleteMessageByHash("HASH_2");
+        assertEquals("Message: \"Where are you? You are late! I have asked you to be on time.\" successfully deleted.", result);
     }
- 
-    // ===== SentMessage() =====
- 
+
     @Test
-    public void testMessageSentOptionReturnsSuccessMessage() {
-        Message message = new Message("+27718693002", "Hi Mike, can you join us for dinner tonight?", 0);
-        message.createMessageHash();
-        assertEquals("Message successfully sent.", message.SentMessage(1));
-    }
- 
-    @Test
-    public void testMessageDisregardOptionReturnsCorrectMessage() {
-        Message message = new Message("08575975889", "Hi Keegan, did you receive the payment?", 1);
-        message.createMessageHash();
-        assertEquals("Press 0 to delete the message.", message.SentMessage(2));
-    }
- 
-    @Test
-    public void testMessageStoreOptionReturnsCorrectMessage() {
-        Message message = new Message("+27718693002", "Hi Mike, can you join us for dinner tonight?", 0);
-        message.createMessageHash();
-        assertEquals("Message successfully stored.", message.SentMessage(3));
-    }
- 
-    // ===== returnTotalMessagess() =====
- 
-    @Test
-    public void testReturnTotalMessagesIncreasesAfterSending() {
-        int before = Message.returnTotalMessages();
-        Message message = new Message("+27718693002", "Hi Mike, can you join us for dinner tonight?", 0);
-        message.createMessageHash();
-        message.SentMessage(1); // choice 1 = send
-        int after = Message.returnTotalMessages();
-        assertEquals(before + 1, after);
+    public void testDisplayReport() {
+        // The report must contain the Hash, Recipient, and Message
+        String report = manager.generateReport();
+        assertTrue(report.contains("HASH_2"));
+        assertTrue(report.contains("+27838884567"));
+        assertTrue(report.contains("Where are you? You are late! I have asked you to be on time."));
     }
 }
