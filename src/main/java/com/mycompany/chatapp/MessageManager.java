@@ -29,6 +29,12 @@ public class MessageManager {
     
     public int messageCount =0;
     
+    public String[] getSentMessages() { return sentMessages; }
+public String[] getDisregardedMessages() { return disregardedMessages; }
+public String[] getStoredMessages() { return storedMessages; }
+public String[] getMessageHashes() { return messageHashes; }
+public String[] getMessageIDs() { return messageIDs; }
+    
     public void addMessage(String id, String hash, String recipient, String text, String flag){
     if (!flag.equals("Sent") && !flag.equals("Disregard")&& !flag.equals("Stored")){
     System.out.println("Unknown message flag: " + flag);
@@ -64,7 +70,7 @@ public class MessageManager {
         addMessage("ID_2", "HASH_2", "+27838884567", "Where are you? You are late! I have asked you to be on time.", "Stored");
 
         // Message 3 (Disregarded)
-        addMessage("ID_3", "HASH_3", "+27844484567", "Yohoooo, I am at your gate.", "Disregard");
+        addMessage("ID_3", "HASH_3", "+27838884567", "Yohoooo, I am at your gate.", "Disregard");
        
         // Message 5 (Stored)
         addMessage("ID_5", "HASH_5", "+27838884567", "Ok, I am leaving without you.", "Stored");
@@ -225,6 +231,7 @@ public class MessageManager {
      }
      }
      // Reads the JSON file back into the array as stored messages 
+     // Adapted from the org.json documentation: https://stleary.github.io/JSON-java/
      public void loadStoredFromJson(String fileName){
      File file = new File(fileName);
      if(!file.exists()){

@@ -166,8 +166,8 @@ public class Main {
                
              
            case "2":
-               System.out.println("Coming Soon.");
-               break;
+             System.out.println(manager.displaySentMessages());
+                break;
                
            case "3":
                quit = true;
@@ -193,19 +193,25 @@ public class Main {
     String fullName = Login.firstName + " " + Login.lastName;
     System.out.println(manager.displayStoredSendersAndRecipients(fullName));
     break;
-                   case "2" :  System.out.println(manager.getLongestStoredMessage()); break;
+                   case "2" :  System.out.println(manager.getLongestStoredMessage());
+                    break;
                    case "3" :
-                        System.out.print("Enter ID: ");
-                        System.out.println(manager.searchByMessageID(input.nextLine()));
-                        break;
+             System.out.print("Enter ID: ");
+                    String id = input.nextLine();
+                     System.out.println("Recipient: " + manager.getRecipientByMessageID(id));
+                         System.out.println("Message: " + manager.searchByMessageID(id));
+    break;
+  
+                       
                    case "4":
-                        System.out.print("Enter Recipent: ");
+                        System.out.print("Enter Recipient: ");
                         System.out.println(manager.searchByRecipient(input.nextLine()));
                         break;
                    case "5":
                        System.out.print("Enter Message Hash: ");
                        System.out.println(manager.deleteMessageByHash(input.nextLine()));
                        manager.saveStoredToJson(JSON_FILE);
+                       break;
                    case "6":  System.out.println(manager.generateReport()); break;
                    case "0": subMenu = false; break;
                    default: System.out.println("Invalid option, please try again.");
