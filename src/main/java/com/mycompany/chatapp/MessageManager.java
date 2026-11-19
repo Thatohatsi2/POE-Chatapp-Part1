@@ -231,6 +231,7 @@ public String[] getMessageIDs() { return messageIDs; }
      }
      }
      // Reads the JSON file back into the array as stored messages 
+     // Adapted from the org.json documentation: https://stleary.github.io/JSON-java/
      public void loadStoredFromJson(String fileName){
      File file = new File(fileName);
      if(!file.exists()){
