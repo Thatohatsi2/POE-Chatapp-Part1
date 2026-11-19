@@ -29,6 +29,12 @@ public class MessageManager {
     
     public int messageCount =0;
     
+    public String[] getSentMessages() { return sentMessages; }
+public String[] getDisregardedMessages() { return disregardedMessages; }
+public String[] getStoredMessages() { return storedMessages; }
+public String[] getMessageHashes() { return messageHashes; }
+public String[] getMessageIDs() { return messageIDs; }
+    
     public void addMessage(String id, String hash, String recipient, String text, String flag){
     if (!flag.equals("Sent") && !flag.equals("Disregard")&& !flag.equals("Stored")){
     System.out.println("Unknown message flag: " + flag);
